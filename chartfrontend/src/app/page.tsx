@@ -2,9 +2,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import styles from "./page.module.css";
-import { createChart, CrosshairMode } from "lightweight-charts";
+import { createChart, CrosshairMode, CandlestickData, WhitespaceData } from "lightweight-charts";
 import { LineChart, Line, XAxis, ErrorBar, YAxis, PieChart, CartesianGrid, Bar, BarChart, Tooltip, Legend, Pie, ResponsiveContainer } from 'recharts';
 import axios from "./api/axios"
+import { AxiosResponse } from "axios";
 
 //Urls
 
@@ -13,18 +14,22 @@ const LINE_URL = "http://localhost:8000/api/line-chart-data/"
 const CANDLE_URL = "http://localhost:8000/api/candlestick-data/"
 const PIE_URL = "http://localhost:8000/api/pie-chart-data/"
 
+
 export default function Home() {
   // Variables
-  const [bar, setBar] = useState([]);
-  const [candle, setCandle] = useState([]);
-  const [pie, setPie] = useState([]);
-  const [line, setLine] = useState([]);
+
+  const [bar, setBar] = useState<any[] | undefined>();
+  //Prevents the initial data of [] from candle from triggering useEffect twice
+  const [visible, setVisible] = useState<Boolean>(false);
+  const [candle, setCandle] = useState<(CandlestickData | WhitespaceData)[]>([]);
+  const [pie, setPie] = useState<any[] | undefined>();
+  const [line, setLine] = useState<any[] | undefined>();
 
   //Fetch Functions
   //Bar
   const getBar = async () => {
     try {
-      const response = await axios.get(BAR_URL)
+      const response= await axios.get(BAR_URL)
 
       setBar(response.data);
 
@@ -39,6 +44,7 @@ export default function Home() {
   //Line
   const getLine = async () => {
     try {
+
       const response = await axios.get(LINE_URL)
       setLine(response.data);
     }
@@ -49,43 +55,44 @@ export default function Home() {
     }
   }
 
+  //Function that renders the candlesticks data
+  useEffect(() => {
+    // From the LightWeight Library itself
+    if (visible == true) {
+      const container = document.getElementById('container') as HTMLElement;
+      const chartOptions = { layout: { textColor: 'black' }, width: container.offsetWidth, height: container.offsetHeight };
+      const chart = createChart(container, chartOptions);
+      const candlestickSeries = chart.addCandlestickSeries({ upColor: '#26a69a', downColor: '#ef5350', borderVisible: false, wickUpColor: '#26a69a', wickDownColor: '#ef5350' });
+
+      //candle variable for some reason didn't work
+      candlestickSeries.setData(candle);
+      chart.timeScale().fitContent();
+
+      // The library isn't naturally responsive so I found an answer from
+      //https://stackoverflow.com/questions/57898720/how-to-create-responsive-tradingview-lightweight-chart
+
+      const resizeObserver = new ResizeObserver(entries => {
+        for (let entry of entries) {
+          if (entry.contentBoxSize) {
+            // Update chart dimensions when container is resized
+            chart.applyOptions({
+              width: entry.contentRect.width,  // New width
+              height: entry.contentRect.height // New height
+            });
+          }
+        }
+      });
+
+      // Start observing the container element
+      resizeObserver.observe(container);
+    }
+  }, [candle])
+
   const getCandle = async () => {
     try {
       const response = await axios.get(CANDLE_URL)
 
       setCandle(response.data);
-      //Function that renders the candlesticks data
-      const candlestickFunction = () => {
-        // From the LightWeight Library itself
-        const container = document.getElementById('container') as HTMLElement;
-        const chartOptions = { layout: { textColor: 'black' }, width: container.offsetWidth, height: container.offsetHeight };
-        const chart = createChart(container, chartOptions);
-        const candlestickSeries = chart.addCandlestickSeries({ upColor: '#26a69a', downColor: '#ef5350', borderVisible: false, wickUpColor: '#26a69a', wickDownColor: '#ef5350' });
-
-        //candle variable for some reason didn't work
-        candlestickSeries.setData(response.data);
-        chart.timeScale().fitContent();
-
-        // The library isn't naturally responsive so I found an answer from
-        //https://stackoverflow.com/questions/57898720/how-to-create-responsive-tradingview-lightweight-chart
-
-        const resizeObserver = new ResizeObserver(entries => {
-          for (let entry of entries) {
-            if (entry.contentBoxSize) {
-              // Update chart dimensions when container is resized
-              chart.applyOptions({
-                width: entry.contentRect.width,  // New width
-                height: entry.contentRect.height // New height
-              });
-            }
-          }
-        });
-
-        // Start observing the container element
-        resizeObserver.observe(container);
-
-      }
-      candlestickFunction();
     }
     catch (err) {
       if (err instanceof Error) {
@@ -114,6 +121,7 @@ export default function Home() {
   useEffect(() => {
 
     getBar();
+    setVisible(true);
     getCandle();
     getLine();
     getPie();
