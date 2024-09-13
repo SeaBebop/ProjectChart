@@ -20,14 +20,14 @@ The internet was a valuable resource for quickly finding solutions to issues lik
      cd chartAPI
      ```
    - Install requirement.txt:
-    ```bash
-        pip install -r requirements.txt
-    ```
+     ```bash
+     pip install -r requirements.txt
+     ```
    - Initialize the dataset and Start the Django development server:
      ```bash
-          python manage.py makemigrations
-          python manage.py migrate 
-          python manage.py runserver 0.0.0.0:8000
+     python manage.py makemigrations
+     python manage.py migrate 
+     python manage.py runserver 0.0.0.0:8000
 
      ```
    - Open a new terminal 
@@ -64,9 +64,9 @@ The internet was a valuable resource for quickly finding solutions to issues lik
      docker container ls
      ```
    - Then you will find something like "projecthcart-main-web" and copy the CONTAINER ID and 
-    ```bash
-    docker exec -it <CONTAINER ID> python manage.py loaddata fixtures.json
-    ```
+     ```bash
+     docker exec -it <CONTAINER ID> python manage.py loaddata fixtures.json
+     ```
    - Then open/refresh `http://localhost:3000` so it can be compiled. And wait till it loads
 
 2. **Run Separately**
