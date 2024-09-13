@@ -1,0 +1,149 @@
+[
+    {
+      "model": "chartModels.dataset",
+      "pk": 1,
+      "fields": {
+        "name": "data"
+      }
+    },
+    {
+      "model": "chartModels.candlestick",
+      "pk": 1,
+      "fields": {
+        "name": 1,  
+        "x": "2023-01-01",
+        "open": 30,
+        "high": 40,
+        "low": 25,
+        "close": 35
+      }
+    },
+    {
+      "model": "chartModels.candlestick",
+      "pk": 2,
+      "fields": {
+        "name": 1,  
+        "x": "2023-01-02",
+        "open": 32,
+        "high": 42,
+        "low": 28,
+        "close": 36
+      }
+    },
+    {
+      "model": "chartModels.candlestick",
+      "pk": 3,
+      "fields": {
+        "name": 1,  
+        "x": "2023-01-03",
+        "open": 34,
+        "high": 44,
+        "low": 30,
+        "close": 38
+      }
+    },
+    {
+      "model": "chartModels.candlestick",
+      "pk": 4,
+      "fields": {
+        "name": 1,  
+        "x": "2023-01-04",
+        "open": 36,
+        "high": 46,
+        "low": 32,
+        "close": 40
+      }
+    },
+    {
+      "model": "chartModels.candlestick",
+      "pk": 5,
+      "fields": {
+        "name": 1,  
+        "x": "2023-01-05",
+        "open": 38,
+        "high": 48,
+        "low": 34,
+        "close": 42
+      }
+    },
+    {
+      "model": "chartModels.linechart",
+      "pk": 1,
+      "fields": {
+        "label": "Jan",
+        "data": 10
+      }
+    },
+    {
+      "model": "chartModels.linechart",
+      "pk": 2,
+      "fields": {
+        "label": "Feb",
+        "data": 20
+      }
+    },
+    {
+      "model": "chartModels.linechart",
+      "pk": 3,
+      "fields": {
+        "label": "Mar",
+        "data": 30
+      }
+    },
+    {
+      "model": "chartModels.linechart",
+      "pk": 4,
+      "fields": {
+        "label": "Apr",
+        "data": 40
+      }
+    },
+    {
+      "model": "chartModels.barchart",
+      "pk": 1,
+      "fields": {
+        "label": "Product A",
+        "data": 100
+      }
+    },
+    {
+      "model": "chartModels.barchart",
+      "pk": 2,
+      "fields": {
+        "label": "Product B",
+        "data": 150
+      }
+    },
+    {
+      "model": "chartModels.barchart",
+      "pk": 3,
+      "fields": {
+        "label": "Product C",
+        "data": 200
+      }
+    },
+    {
+      "model": "chartModels.piechart",
+      "pk": 1,
+      "fields": {
+        "label": "Red",
+        "data": 300
+      }
+    },
+    {
+      "model": "chartModels.piechart",
+      "pk": 2,
+      "fields": {
+        "label": "Blue",
+        "data": 50
+      }
+    },
+    {
+      "model": "chartModels.piechart",
+      "pk": 3,
+      "fields": {
+        "label": "Yellow",
+        "data": 100
+      }
+    }
+  ]
